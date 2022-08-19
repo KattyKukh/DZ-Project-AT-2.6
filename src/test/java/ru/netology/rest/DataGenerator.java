@@ -12,25 +12,43 @@ import java.util.Locale;
 import static io.restassured.RestAssured.given;
 
 public class DataGenerator {
-    private static RequestSpecification requestSpec = new RequestSpecBuilder()
-            .setBaseUri("http://localhost")
-            .setPort(9999)
-            .setAccept(ContentType.JSON)
-            .setContentType(ContentType.JSON)
-            .log(LogDetail.ALL)
-            .build();
+    private DataGenerator() {
+    }
 
-    public UserData getNewUser(String status, String locale) {
-        Faker faker = new Faker(new Locale(locale));
-        UserData userData = new UserData(faker.name().username(), faker.internet().password(), status);
-        Gson gson = new Gson();
-        given() // "дано"
-                .spec(requestSpec) // указываем, какую спецификацию используем
-                .body(gson.toJson(userData)) // передаём в теле объект, который будет преобразован в JSON
-                .when() // на какой путь, относительно BaseUri отправляем запрос (endpoint)
-                .post("/api/system/users")
-                .then() // "тогда ожидаем"
-                .statusCode(200); // код 200 - OK
-        return userData;
+    public static class Generation {
+        private Generation() {
+        }
+
+        private static RequestSpecification requestSpec = new RequestSpecBuilder()
+                .setBaseUri("http://localhost")
+                .setPort(9999)
+                .setAccept(ContentType.JSON)
+                .setContentType(ContentType.JSON)
+                .log(LogDetail.ALL)
+                .build();
+
+        public static String getUsername(String locale) {
+            Faker faker = new Faker(new Locale(locale));
+            return faker.name().username();
+        }
+
+        public static String getPassword(String locale) {
+            Faker faker = new Faker(new Locale(locale));
+            return faker.internet().password();
+        }
+
+        public static UserData getNewUser(String status, String locale) {
+            Faker faker = new Faker(new Locale(locale));
+            UserData userData = new UserData(getUsername(locale), getPassword(locale), status);
+            Gson gson = new Gson();
+            given() // "дано"
+                    .spec(requestSpec) // указываем, какую спецификацию используем
+                    .body(gson.toJson(userData)) // передаём в теле объект, который будет преобразован в JSON
+                    .when() // на какой путь, относительно BaseUri отправляем запрос (endpoint)
+                    .post("/api/system/users")
+                    .then() // "тогда ожидаем"
+                    .statusCode(200); // код 200 - OK
+            return userData;
+        }
     }
 }
