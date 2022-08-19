@@ -1,4 +1,4 @@
-package ru.netology.rest;
+package ru.netology.delivery.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

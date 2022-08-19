@@ -1,4 +1,4 @@
-package ru.netology.rest;
+package ru.netology.delivery.test;
 
 import com.codeborne.selenide.Condition;
 
@@ -6,6 +6,8 @@ import static com.codeborne.selenide.Selenide.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.netology.delivery.data.DataGenerator;
+import ru.netology.delivery.data.UserData;
 
 import java.time.Duration;
 

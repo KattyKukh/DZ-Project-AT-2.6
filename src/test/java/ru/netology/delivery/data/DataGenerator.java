@@ -1,4 +1,4 @@
-package ru.netology.rest;
+package ru.netology.delivery.data;
 
 import com.github.javafaker.Faker;
 import com.google.gson.Gson;
